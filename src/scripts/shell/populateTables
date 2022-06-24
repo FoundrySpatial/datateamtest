@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo
+echo "Running populateTable script"
+echo "I am on `uname -a`"
+echo
+echo
+echo "----- Populating Postgres Tables ------"
+date
+echo "populating table 1"
+sleep 1
+echo "populating table 2"
+sleep 2
+echo "populating table 3"
+sleep 3 
+echo "complete: all tables are populated"
+date

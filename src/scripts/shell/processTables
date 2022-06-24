@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo
+echo "Running processTables script"
+echo "I am on `uname -a`"
+echo
+echo
+echo "----- Processing Postgres Tables ------"
+date
+echo "processing table 1"
+sleep 1
+echo "processing table 2"
+sleep 2
+echo "processing table 3"
+sleep 3 
+echo "complete: all tables are processed"
+date

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo
+echo "Running setup script"
+echo "I am on `uname -a`"
+echo
+echo
+echo "----- Setting up ------"
+date
+echo "doing setup step 1"
+sleep 1
+echo "doing setup step 2"
+sleep 2
+echo "doing setup step 3"
+sleep 3 
+echo "Setup is complete"
+date
