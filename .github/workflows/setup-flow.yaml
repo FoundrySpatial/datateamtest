@@ -19,9 +19,37 @@ jobs:
     needs: [prep]
     steps:
       - uses: actions/checkout@v1
-      - name: setup
-        uses: actions/cache@v1
+      - name: list everything
+        run: |
+          pwd
+          find .
       - name: githup action to run setup
         run: |
           pwd
-          ../src/scripts/shell/setup
+          /bin/bash -c ../src/scripts/shell/setup
+  populateTables:
+    runs-on: ubuntu-latest
+    needs: [prep]
+    steps:
+      - uses: actions/checkout@v1
+      - name: list everything
+        run: |
+          pwd
+          find .
+      - name: githup action to run setup
+        run: |
+          pwd
+          /bin/bash -c ../src/scripts/shell/populateTables
+  processTables:
+    runs-on: ubuntu-latest
+    needs: [prep]
+    steps:
+      - uses: actions/checkout@v1
+      - name: list everything
+        run: |
+          pwd
+          find .
+      - name: githup action to run setup
+        run: |
+          pwd
+          /bin/bash -c ../src/scripts/shell/processTables
