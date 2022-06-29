@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 defaults:
   run:
-    working-directory: ./space
+    working-directory: /app
 jobs:
   prep:
     runs-on: ubuntu-latest
@@ -26,7 +26,14 @@ jobs:
       - name: githup action to run setup
         run: |
           pwd
-          /bin/bash -c ../src/scripts/shell/setup
+          /bin/bash -c ./run-fast.sh
+      - name: notification
+        env:
+          slackurl: https://hooks.slack.com/services/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
+        run: |
+          ls -l /bin/messlack
+          echo curl -X POST -H 'Content-type: application/json' --data '{"text":"setup completed"}' $slackurl
+          # curl -X POST -H 'Content-type: application/json' --data '{"text":"setup completed"}' $slackurl
   populateTables:
     runs-on: ubuntu-latest
     needs: [prep]
@@ -40,6 +47,12 @@ jobs:
         run: |
           pwd
           /bin/bash -c ../src/scripts/shell/populateTables
+      - name: message
+        run: |
+          echo "messtext=`/bin/date -R` datateamtest - populateTables completed" >> $GITHUB_ENV 
+      - name: notification
+        run: |
+          echo curl -X POST -H Content-type: application/json --data {"text":"$messtext"} $SLACK_URL
   processTables:
     runs-on: ubuntu-latest
     needs: [prep]
@@ -53,3 +66,9 @@ jobs:
         run: |
           pwd
           /bin/bash -c ../src/scripts/shell/processTables
+      - name: message
+        run: |
+          echo "messtext=`/bin/date -R` datateamtest - processTables completed" >> $GITHUB_ENV 
+      - name: notification
+        run: |
+          echo curl -X POST -H Content-type: application/json --data {"text":"$messtext"} $SLACK_URL
