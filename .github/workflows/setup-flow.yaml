@@ -32,7 +32,6 @@ jobs:
           slackurl: https://hooks.slack.com/services/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
         run: |
           ls -l /bin/messlack
-          echo curl -X POST -H 'Content-type: application/json' --data '{"text":"setup completed"}' $slackurl
           # curl -X POST -H 'Content-type: application/json' --data '{"text":"setup completed"}' $slackurl
   populateTables:
     runs-on: ubuntu-latest
