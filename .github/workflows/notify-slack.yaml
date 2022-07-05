@@ -1,0 +1,19 @@
+
+name: notify-slack
+on:
+  workflow_call:
+    inputs:
+      message:
+        required: true
+        type: string
+    secrets:
+      SLACK_URL:
+        required: true
+jobs:
+  reusable_workflow_job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - name: notify
+        run: |
+          curl -X POST -H Content-type: application/json --data {"text":"${{ inputs.message }}"} ${{ secrets.SLACK_URL }}

@@ -1,0 +1,50 @@
+name: setup-flow
+on:
+  push:
+    paths:
+      - "src/scripts/**/*.py"
+  workflow_dispatch:
+defaults:
+  run:
+    working-directory: .
+jobs:
+  prep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - name: display the directory structure
+        run: find .
+  setup:
+    runs-on: ubuntu-latest
+    needs: [prep]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: install openvpn
+        run: |
+          sudo apt update
+          sudo apt install -y openvpn openvpn-systemd-resolved
+      - name: connect to vpn
+        run: |
+          uses: "kota65535/github-openvpn-connect-action@v1"
+        with:
+          config_file: ./.github/workflows/client.ovpn
+          username: ${{ secrets.OVPN_USERNAME }}
+          password: ${{ secrets.OVPN_PASSWORD }}
+          client_key: ${{ secrets.OVPN_CLIENT_KEY }}
+          tls_auth_key: ${{ secrets.OVPN_TLS_AUTH_KEY }}
+
+      - name: list everything
+        run: |
+          pwd
+          find .
+      - name: githup action to run setup
+        run: |
+          pwd
+          /bin/bash -c ./run-fast.sh
+      - name: notification
+        env:
+          slackurl: https://hooks.slack.com/services/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
+        run: |
+          ls -l /bin/messlack
+          # curl -X POST -H 'Content-type: application/json' --data '{"text":"setup completed"}' $slackurl
