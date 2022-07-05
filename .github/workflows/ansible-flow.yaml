@@ -1,4 +1,4 @@
-name: ancible-flow
+name: ansible-flow
 on:
   push:
     paths:
@@ -10,14 +10,6 @@ defaults:
     working-directory: .
 jobs:
   prep:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@main
-      - name: prep work
-        run: |
-          pwd
-          uname -a
-  setup:
     runs-on: ubuntu-latest
     needs: [prep]
     steps:
