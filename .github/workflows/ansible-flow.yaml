@@ -1,8 +1,9 @@
-name: setup-flow
+name: ancible-flow
 on:
   push:
     paths:
       - "src/scripts/**/*.py"
+      - "src/scripts/**/*.js"
   workflow_dispatch:
 defaults:
   run:
