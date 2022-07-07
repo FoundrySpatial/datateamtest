@@ -39,7 +39,7 @@ jobs:
           playbook: playbooks/helloWorld.yml
           inventory: |
             [all]
-            10.10.6.8: # skeena
+            10.10.6.8 # skeena
           key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: notification
         env:
