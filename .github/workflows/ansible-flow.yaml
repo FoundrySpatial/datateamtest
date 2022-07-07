@@ -35,8 +35,11 @@ jobs:
       - name: run ansible playbook
         uses: "dawidd6/action-ansible-playbook@v2"
         with:
-          playbook: playbooks/helloWorld.yml
           directory: ./
+          playbook: playbooks/helloWorld.yml
+          inventory: |
+            [all]
+            10.10.6.8: # skeena
           key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: notification
         env:
