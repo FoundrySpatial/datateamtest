@@ -37,7 +37,7 @@ jobs:
         with:
           playbook: playbooks/helloWorld.yml
           directory: ./
-          key: {{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: notification
         env:
           slackurl: https://hooks.slack.com/services/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
