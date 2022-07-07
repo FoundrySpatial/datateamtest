@@ -33,6 +33,15 @@ jobs:
           pwd
           uname -a
           ping  -c 1 -w 2 10.10.6.8
+      - name: install ssh key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          name: id_rsa
+          known_hosts: {{ secrets.SSH_KNOWN_HOSTS }}
+      - name: rsync over ssh
+        run: |
+          rsync ./src ansible@10.10.6.8:src/
       - name: run ansible playbook
         uses: "dawidd6/action-ansible-playbook@v2"
         with:
@@ -42,6 +51,7 @@ jobs:
             [all]
             10.10.6.8 # skeena
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
       - name: notification
         env:
           slackurl: https://hooks.slack.com/services/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
