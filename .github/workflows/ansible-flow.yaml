@@ -28,15 +28,19 @@ jobs:
           ca_cert: ${{ secrets.OVPN_CA_CERT }}
           client_key: ${{ secrets.OVPN_CLIENT_KEY }}
           client_cert: ${{ secrets.OVPN_CLIENT_CERT }}
+          ssh_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh_pub: ${{ secrets.SSH_PUBLIC_KEY }}
+          ssh_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
       - name: see where you are
         run: |
           pwd
           uname -a
           ping  -c 1 -w 2 10.10.6.8
+          echo "ssh setup"
           mkdir ~/.ssh
-          echo ${{ secrets.SSH_PRIVATE_KEY }} > ~/.ssh/id_rsa
-          echo ${{ secrets.SSH_PUBLIC_KEY }} > ~/.ssh/id_rsa.pub
-          echo ${{ secrets.SSH_KNOWN_HOSTS }} > ~/.ssh/known_hosts
+          echo "$ssh_key" > ~/.ssh/id_rsa
+          echo "$ssh_pub" > ~/.ssh/id_rsa.pub
+          echo "$ssh_hosts" > ~/.ssh/known_hosts
           chmod 600 ~/.ssh ~/.ssh/*
           ssh ansible@10.10.6.8
       - name: run ansible playbook
