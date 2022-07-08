@@ -37,7 +37,10 @@ jobs:
           pwd
           uname -a
           ping  -c 1 -w 2 10.10.6.8
-          ssh-keyscan -H 10.10.6.8
+          echo "before keyscan"
+          ssh-keyscan -H 10.10.6.8 >/dev/null
+          echo "after keyscan"
+          echo "trying to connect"
           ssh ansible@10.10.6.8
       - name: run ansible playbook
         uses: "dawidd6/action-ansible-playbook@v2"
