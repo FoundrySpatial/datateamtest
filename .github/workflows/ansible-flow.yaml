@@ -33,17 +33,19 @@ jobs:
           pwd
           uname -a
           ping  -c 1 -w 2 10.10.6.8
-          mkdir /tmp/ttdir
-          echo "somedata" > /tmp/ttdir/data.txt
-      - name: install ssh key
-        uses: shimataro/ssh-key-action@v2
-        with:
+      - name: create ssh key
+        env:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          name: id_rsa
+          publicKey: ${{ secrets.SSH_PUBLIC_KEY }}
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
-      - name: try rsync
         run: |
-          rsync -r /tmp//ttdir/ ansible@10.10.6.8:/ttdir
+          mkdir -p ~/.ssh/
+          echo "::add-mask::$key" > ../private.key
+          sudo chmod 600 ../private.key
+          echo "::add-mask::$known_hosts" > ~/.ssh/known_hosts
+          mkdir ~/ttdir
+          echo "somedata" > ~/ttdir/data.txt
+          rsync -r ~/ttdir/ ansible@10.10.6.8:/ttdir
       - name: run ansible playbook
         uses: "dawidd6/action-ansible-playbook@v2"
         with:
