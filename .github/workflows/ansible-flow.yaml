@@ -40,10 +40,10 @@ jobs:
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
         run: |
           if [ ! -d ~/.ssh ] ; then mkdir ~/.ssh; fi
-          echo "::add-mask::$key" >~/.ssh/id_rsa
-          echo "::add-mask::$pubkey" >~/.ssh/id_rsa.pub
-          echo "::add-mask::$known_hosts" > ~/.ssh/known_hosts
-          chmod 600 ~/.ssh/*
+          sudo echo "::add-mask::$key" >~/.ssh/id_rsa
+          sudo echo "::add-mask::$pubkey" >~/.ssh/id_rsa.pub
+          sudo echo "::add-mask::$known_hosts" > ~/.ssh/known_hosts
+          sudo chmod 600 ~/.ssh/*
           ssh ansible@10.10.6.8
       - name: run ansible playbook
         uses: "dawidd6/action-ansible-playbook@v2"
