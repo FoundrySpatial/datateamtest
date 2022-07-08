@@ -33,16 +33,17 @@ jobs:
           pwd
           uname -a
           ping  -c 1 -w 2 10.10.6.8
-          mkdir testdir
-          echo "somedata" > testdir/data.txt
+          mkdir /tmp/ttdir
+          echo "somedata" > /tmp/ttdir/data.txt
       - name: install ssh key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           name: id_rsa
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+      - name: try rsync
         run: |
-          rsync -r ./testdir/ ansible@10.10.6.8:/testdir
+          rsync -r /tmp//ttdir/ ansible@10.10.6.8:/ttdir
       - name: run ansible playbook
         uses: "dawidd6/action-ansible-playbook@v2"
         with:
