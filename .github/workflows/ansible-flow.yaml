@@ -39,9 +39,10 @@ jobs:
           pubkey: ${{ secrets.SSH_PUBLIC_KEY }}
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
         run: |
-          echo "::add-mask::$key" >>~/.ssh/id_rsa
-          echo "::add-mask::$pubkey" >>~/.ssh/id_rsa.pub
-          echo "::add-mask::$known_hosts" >> ~/.ssh/known_hosts
+          if [ ! -d ~/.ssh ] ; then mkdir ~/.ssh; fi
+          echo "::add-mask::$key" >~/.ssh/id_rsa
+          echo "::add-mask::$pubkey" >~/.ssh/id_rsa.pub
+          echo "::add-mask::$known_hosts" > ~/.ssh/known_hosts
           chmod 600 ~/.ssh/*
           ssh ansible@10.10.6.8
       - name: run ansible playbook
