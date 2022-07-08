@@ -41,7 +41,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           name: id_rsa
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
-      - name: rsync over ssh
         run: |
           rsync -r ./testdir/ ansible@10.10.6.8:/testdir
       - name: run ansible playbook
