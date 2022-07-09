@@ -16,7 +16,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name: set up ssh
-        uses: webfactory/ssh-agent@v0.5.4
+        uses: shimataro/ssh-key-action@v2
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: install openvpn
@@ -38,7 +38,7 @@ jobs:
           uname -a
           ping  -c 1 -w 2 10.10.6.8
           echo "before keyscan"
-          ssh-keyscan -H 10.10.6.8 >/dev/null
+          ssh-keyscan -H 10.10.6.8 >> ~/.ssh/known_hosts
           echo "after keyscan"
           echo "trying to connect"
           ssh ansible@10.10.6.8
