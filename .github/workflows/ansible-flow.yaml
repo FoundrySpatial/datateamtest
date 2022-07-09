@@ -43,7 +43,8 @@ jobs:
           ssh-keyscan -H 10.10.6.8 >> ~/.ssh/known_hosts
           echo "after keyscan"
           echo "run ansible playbook"
-          ansible-playbook -i ~/playbooks/inventory.yml ~/playbooks/helloWorld.yml --ask-vault-pass --ask-become-pass -u ansible
+          # ansible-playbook -i ./playbooks/inventory.yml ./playbooks/helloWorld.yml --ask-vault-pass --ask-become-pass -u ansible
+          ansible-playbook -i ./playbooks/inventory.yml ./playbooks/helloWorld.yml 
       - name: notification
         env:
           slackurl: https://hooks.slack.com/services/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
