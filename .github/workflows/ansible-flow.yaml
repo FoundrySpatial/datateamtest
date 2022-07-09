@@ -18,7 +18,7 @@ jobs:
       - name: set up ssh
         uses: shimataro/ssh-key-action@v2
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: install openvpn
         run: |
           sudo apt update
