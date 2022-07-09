@@ -24,7 +24,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y openvpn openvpn-systemd-resolved
-          sudo apt install -y ansible-core
+          sudo apt install -y ansible
       - name: connect to vpn
         uses: "FoundrySpatial/github-openvpn-connect-action@main"
         with:
