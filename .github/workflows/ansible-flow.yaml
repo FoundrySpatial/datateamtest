@@ -24,6 +24,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y openvpn openvpn-systemd-resolved
+          sudo apt install -y ansible-core
       - name: connect to vpn
         uses: "FoundrySpatial/github-openvpn-connect-action@main"
         with:
@@ -41,15 +42,8 @@ jobs:
           echo "before keyscan"
           ssh-keyscan -H 10.10.6.8 >> ~/.ssh/known_hosts
           echo "after keyscan"
-          echo "trying to connect"
-      - name: run ansible playbook
-        uses: "dawidd6/action-ansible-playbook@v2"
-        with:
-          directory: ./
-          playbook: playbooks/helloWorld.yml
-          inventory: |
-            [all]
-            10.10.6.8 # skeena
+          echo "run ansible playbook"
+          ansible-playbook -i ~/playbooks/inventory.yml ~/playbooks/helloWorld.yml --ask-vault-pass --ask-become-pass -u ansible
       - name: notification
         env:
           slackurl: https://hooks.slack.com/services/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
