@@ -42,7 +42,6 @@ jobs:
           ssh-keyscan -H 10.10.6.8 >> ~/.ssh/known_hosts
           echo "after keyscan"
           echo "trying to connect"
-          ssh ansible@10.10.6.8
       - name: run ansible playbook
         uses: "dawidd6/action-ansible-playbook@v2"
         with:
@@ -51,8 +50,6 @@ jobs:
           inventory: |
             [all]
             10.10.6.8 # skeena
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
       - name: notification
         env:
           slackurl: https://hooks.slack.com/services/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
