@@ -1,0 +1,43 @@
+name: playbook-helloWorld
+on:
+  push:
+    paths:
+      - "playbooks/*.yml"
+      - "src/scripts/**/*.py"
+      - "src/scripts/**/*.js"
+  workflow_dispatch:
+defaults:
+  run:
+    working-directory: .
+jobs:
+  prep:
+    runs-on: jamfoundry/foundrygit-ubuntu@v1
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: set up ssh
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: 10.10.6.8
+      - name: connect to vpn
+        uses: "FoundrySpatial/github-openvpn-connect-action@main"
+        with:
+          config_file: ./.github/workflows/client.ovpn
+          username: ${{ secrets.OVPN_USERNAME }}
+          password: ${{ secrets.OVPN_PASSWORD }}
+          ca_cert: ${{ secrets.OVPN_CA_CERT }}
+          client_key: ${{ secrets.OVPN_CLIENT_KEY }}
+          client_cert: ${{ secrets.OVPN_CLIENT_CERT }}
+      - name: After vpn connection
+        run: |
+          ssh-keyscan -H 10.10.6.8 >> ~/.ssh/known_hosts
+          echo "running ansible playbook helloWorld on"
+          uname -a
+          echo "run ansible playbook"
+          ansible-playbook -i ./playbooks/inventory.yml ./playbooks/helloWorld.yml -u ansible
+      - name: notification
+        env:
+          slackurl: https://hooks.slack.com/services/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
+        run: |
+          echo curl -X POST -H 'Content-type: application/json' --data '{"text":"setup completed"}' $slackurl
